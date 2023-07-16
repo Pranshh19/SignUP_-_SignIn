@@ -36,13 +36,13 @@ const userSchema = new Schema({
     timestamps: true
 })
 
-const secretkey = "hi";
+
 userSchema.methods = {
     
     jwtToken() {
         return JWT.sign(
             { id: this._id, email: this.email},
-            secretkey,
+            process.env.SECRET,
             {expiresIn: '24h'}
         )
     }

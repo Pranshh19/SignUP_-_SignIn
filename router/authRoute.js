@@ -1,5 +1,6 @@
 const express = require('express');
-const { signup,signin } = require('../controller/authController');
+const { signup,signin,getUser, logout } = require('../controller/authController');
+const jwtAuth = require('../middleware/jwtAuth');
 
 //exporting authRouter
 const authRouter = express.Router();
@@ -17,10 +18,14 @@ authRouter.get('/signin', (req, res) => {
 })
 authRouter.post('/signin', signin);
 
-authRouter.get('/hero', (req, res) => {
+authRouter.get('/hero', jwtAuth, (req, res) => {
     res.render('hero');
-})
+  });
+  
+authRouter.get('/logout', jwtAuth,logout);
 
+// authRouter.get('/user',jwtAuth,getUser)
+// authRouter.get('/logout',jwtAuth,logout)
 
 
 module.exports = authRouter;
